@@ -1,6 +1,6 @@
 properties([
     parameters([
-        text(defaultValue: '1234567890', description: 'Enter the 40 char commit id(s) with space of new line as delimeter. Example: ', name: 'CommitIDs', trim: true),
+        text(defaultValue: '1234567890example1234567890commit1234567', description: 'Enter the 40 char commit id(s) with space of new line as delimeter. Example: 1234567890example1234567890commit1234567', name: 'CommitIDs', trim: true),
         choice(choices: ['False Positive', 'I acknowledge its True Positive, it will be remediated soon'], description: '', name: 'Reason')
     ])
 ])
