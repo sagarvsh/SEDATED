@@ -9,6 +9,8 @@ node {
     def validCommits = ""
     def validCommits2 = ""
     def invalidCommits = ""
+    def TIMESTAMP = new Date()
+    // TIMESTAMP=`date +%Y-%m-%d_%H-%M-%S`
 
         stage('Validate') {
             def chkCommit = "${params.CommitIDs}"
@@ -41,13 +43,12 @@ node {
 
         stage('Whitelist') {
             wrap([$class: 'BuildUser']){
-                sh """
+                sh """#!/bin/sh
                 git clone git@github.com:sagarvsh/SEDATED.git
                 cd sedated/config/whitelists
-                TIMESTAMP=`date +%Y-%m-%d_%H-%M-%S`
                 git pull
                 echo "$validCommits" >> commit_whitelist.txt
-                echo "| $BUILD_ID | TIMESTAMP | $validCommits2 | $Reason | $BUILD_USER |" >> audit_commit_whitelist.md
+                echo "| $BUILD_ID | $TIMESTAMP | $validCommits2 | $Reason | $BUILD_USER |" >> audit_commit_whitelist.md
                 cat audit_commit_whitelist.md
                 git commit -am "commit $validCommits2"
                 git push origin master
@@ -55,7 +56,7 @@ node {
             }
         }
 
-        stage('Record event in GitHub Issue'){
+        /* stage('Record event in GitHub Issue'){
             wrap([$class: 'BuildUser']){
                 sh "echo '{\"title\":\"[auto-creation] Commit ID(s) whitelisted by '$BUILD_USER' \",\"body\":\" @'BUILD_USER_ID' whitelisted '$validCommits2'\",\"assignee\":[\"sagarvsh\"],\"labels\":[\"auto-creation\"]}' > issue.json"
 
@@ -65,6 +66,6 @@ node {
                 curl -X PATCH -H "Authorization: token $githubtoken" https://github.com/api/v3/repos/svalage/sedated/issues/$issuenumber --data '{"stage":"closed"}'
                 '''
             }
-        }
+        } */
         cleanWs()
 }
