@@ -45,7 +45,7 @@ node {
             sshagent(['GitHubSSH']) {
             wrap([$class: 'BuildUser']){
                 sh """#!/bin/sh
-                git clone git@github.com:sagarvsh/SEDATED.git
+                git clone git@github.com:sagarvsh/sedated.git
                 cd sedated/config/whitelists
                 git pull
                 echo "$validCommits" >> commit_whitelist.txt
