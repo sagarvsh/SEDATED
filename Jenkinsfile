@@ -47,12 +47,13 @@ node {
                 sh """#!/bin/sh
                 git clone git@github.com:sagarvsh/sedated.git
                 cd sedated/config/whitelists
-                git pull
+                git checkout -b develop
+                git pull origin develop
                 echo "$validCommits" >> commit_whitelist.txt
                 echo "| $BUILD_ID | $TIMESTAMP | $validCommits2 | $Reason | $BUILD_USER |" >> audit_commit_whitelist.md
                 cat audit_commit_whitelist.md
                 git commit -am "commit $validCommits2"
-                git push origin master
+                git push origin develop
                 """
             }
             }
