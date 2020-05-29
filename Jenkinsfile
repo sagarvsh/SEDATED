@@ -42,7 +42,7 @@ node {
         }
 
         stage('Whitelist') {
-            sshagent(['SagarSSH']) {
+            sshagent(['GitHubSSH']) {
             wrap([$class: 'BuildUser']){
                 sh """#!/bin/sh
                 git clone git@github.com:sagarvsh/SEDATED.git
