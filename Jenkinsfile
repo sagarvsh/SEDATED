@@ -1,7 +1,19 @@
+
+
+
+
+
+
+
+
+
+
+
+
 properties([
     parameters([
         text(defaultValue: '1234567890example1234567890commit1234567', description: 'Enter the 40 char commit id(s) with space of new line as delimeter. Example: 1234567890example1234567890commit1234567', name: 'CommitIDs', trim: true),
-        choice(choices: ['False Positive', 'I acknowledge its True Positive, it will be remediated soon'], description: '', name: 'Reason')
+        choice(choices: ['False Positive', 'Fixed', 'I acknowledge its True Positive, it will be remediated soon'], description: '', name: 'Reason')
     ])
 ])
 
@@ -42,6 +54,7 @@ node {
         }
 
         stage('Whitelist') {
+            sshagent(['SagarSSH']) {
             wrap([$class: 'BuildUser']){
                 sh """#!/bin/sh
                 git clone git@github.com:sagarvsh/SEDATED.git
@@ -54,11 +67,12 @@ node {
                 git push origin master
                 """
             }
+            }
         }
 
         /* stage('Record event in GitHub Issue'){
             wrap([$class: 'BuildUser']){
-                sh "echo '{\"title\":\"[auto-creation] Commit ID(s) whitelisted by '$BUILD_USER' \",\"body\":\" @'BUILD_USER_ID' whitelisted '$validCommits2'\",\"assignee\":[\"sagarvsh\"],\"labels\":[\"auto-creation\"]}' > issue.json"
+                sh "echo '{\"title\":\"[auto-creation] SEDATED - '$BUILD_USER_FIRST_NAME' whitelisted Commit ID(s)\",\"body\":\" @'BUILD_USER_ID' Hi 'BUILD_USER_FIRST_NAME', Thank you for using self service utility to whitelist commit id(s). Following commit id(s) are whitelisted '$validCommits2'\",\"assignee\":[\"sagarvsh\"],\"labels\":[\"auto-creation\"]}' > issue.json"
 
                 sh '''
                 response=$(curl -X POST -H "Authorization: token $githubtoken" https://github.com/api/v3/repos/svalage/sedated/issues --data @issue.json)
