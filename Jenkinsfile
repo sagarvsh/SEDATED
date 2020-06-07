@@ -68,8 +68,12 @@ node {
 
                 sh '''
                 response=$(curl -X POST -H "Authorization: token $TOKEN" https://api.github.com/repos/sagarvsh/sedated/issues --data @issue.json)
+                << jqNotInstalled
                 issuenumber=$(echo $response | jq '.number')
+                jqNotInstalled
+                << AutoClose
                 curl -X PATCH -H "Authorization: token $TOKEN" https://api.github.com/repos/sagarvsh/sedated/issues/$issuenumber --data '{"state":"closed"}'
+                AutoClose
                 '''
             }
             }
