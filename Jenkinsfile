@@ -66,9 +66,9 @@ node {
                 sh "echo '{\"title\":\"[auto-creation] SEDATED - '$BUILD_USER_FIRST_NAME' whitelisted Commit ID(s)\",\"body\":\" @'$BUILD_USER_ID' Hi '$BUILD_USER_FIRST_NAME', Thank you for using self service utility to whitelist commit id(s). Following commit id(s) are whitelisted '$validCommits2'\",\"assignee\":[\"sagarvsh\"],\"labels\":[\"auto-creation\"]}' > issue.json"
 
                 sh '''
-                response=$(curl -X POST -H "Authorization: token 31713bad0517ce427c8087b770317a911a16ac27" https://api.github.com/repos/sagarvsh/sedated/issues --data @issue.json)
+                response=$(curl -X POST -H "Authorization: token $k8sgithubmac" https://api.github.com/repos/sagarvsh/sedated/issues --data @issue.json)
                 issuenumber=$(echo $response | jq '.number')
-                curl -X PATCH -H "Authorization: token 31713bad0517ce427c8087b770317a911a16ac27" https://api.github.com/repos/sagarvsh/sedated/issues/$issuenumber --data '{"stage":"closed"}'
+                curl -X PATCH -H "Authorization: token $k8sgithubmac" https://api.github.com/repos/sagarvsh/sedated/issues/$issuenumber --data '{"stage":"closed"}'
                 '''
             }
             //}
