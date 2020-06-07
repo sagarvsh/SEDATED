@@ -69,7 +69,7 @@ node {
                 sh '''
                 response=$(curl -X POST -H "Authorization: token $TOKEN" https://api.github.com/repos/sagarvsh/sedated/issues --data @issue.json)
                 issuenumber=$(echo $response | jq '.number')
-                curl -X PATCH -H "Authorization: token $TOKEN" https://api.github.com/repos/sagarvsh/sedated/issues/$issuenumber --data '{"stage":"closed"}'
+                curl -X PATCH -H "Authorization: token $TOKEN" https://api.github.com/repos/sagarvsh/sedated/issues/$issuenumber --data '{"state":"closed"}'
                 '''
             }
             }
