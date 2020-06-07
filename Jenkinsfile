@@ -60,17 +60,18 @@ node {
         }
 
         stage('Record event in GitHub Issue'){
-            properties([[$class: 'GithubProjectProperty', projectUrlStr: 'https://github.com/api/v3/repos/sagarvsh/sedated.git']]) {
+            // properties([[$class: 'GithubProjectProperty', projectUrlStr: 'https://github.com/api/v3/repos/sagarvsh/sedated.git']]) {
+            //wrap([$class: 'GithubProjectProperty']) {
             wrap([$class: 'BuildUser']){
                 sh "echo '{\"title\":\"[auto-creation] SEDATED - '$BUILD_USER_FIRST_NAME' whitelisted Commit ID(s)\",\"body\":\" @'$BUILD_USER_ID' Hi '$BUILD_USER_FIRST_NAME', Thank you for using self service utility to whitelist commit id(s). Following commit id(s) are whitelisted '$validCommits2'\",\"assignee\":[\"sagarvsh\"],\"labels\":[\"auto-creation\"]}' > issue.json"
 
                 sh '''
-                response=$(curl -X POST -H "Authorization: token $k8sgithubmac" https://github.com/api/v3/repos/sagarvsh/sedated/issues --data @issue.json)
+                response=$(curl -X POST -H "Authorization: token $k8sgithubmac" https://api.github.com/repos/sagarvsh/sedated/issues --data @issue.json)
                 issuenumber=$(echo $response | jq '.number')
-                curl -X PATCH -H "Authorization: token $k8sgithubmac" https://github.com/api/v3/repos/sagarvsh/sedated/issues/$issuenumber --data '{"stage":"closed"}'
+                curl -X PATCH -H "Authorization: token $k8sgithubmac" https://api.github.com/repos/sagarvsh/sedated/issues/$issuenumber --data '{"stage":"closed"}'
                 '''
             }
-            }
+            //}
         } 
         cleanWs()
 }
