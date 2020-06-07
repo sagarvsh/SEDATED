@@ -45,8 +45,6 @@ node {
             sshagent(['GitHubSSH']) {
             wrap([$class: 'BuildUser']){
                 sh """#!/bin/sh
-                git config user.email "vs.sagar@gmail.com"
-                git config user.name "SagarVS"
                 git clone git@github.com:sagarvsh/sedated.git
                 cd sedated/config/whitelists
                 git checkout -b develop
@@ -64,6 +62,7 @@ node {
         stage('Record event in GitHub Issue'){
             wrap([$class: 'BuildUser']){
                 sh "echo '{\"title\":\"[auto-creation] SEDATED - '$BUILD_USER_FIRST_NAME' whitelisted Commit ID(s)\",\"body\":\" @'BUILD_USER_ID' Hi 'BUILD_USER_FIRST_NAME', Thank you for using self service utility to whitelist commit id(s). Following commit id(s) are whitelisted '$validCommits2'\",\"assignee\":[\"sagarvsh\"],\"labels\":[\"auto-creation\"]}' > issue.json"
+                cat issue.json
 
                 sh '''
                 response=$(curl -X POST -H "Authorization: token $githubtoken" https://github.com/api/v3/repos/sagarvsh/sedated/issues --data @issue.json)
