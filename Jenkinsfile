@@ -45,9 +45,9 @@ node {
             sshagent(['GitHubSSH']) {
             wrap([$class: 'BuildUser']){
                 sh """#!/bin/sh
-                git config --global user.email "vs.sagar@gmail.com"
-                git config --global user.name "SagarVS"
-                git clone git@github.com:sagarvsh/sedated.git
+                git config user.email "vs.sagar@gmail.com"
+                git config user.name "SagarVS"
+                git clone git@github.com:sagarvsh/SEDATED.git
                 cd sedated/config/whitelists
                 git checkout -b develop
                 git pull origin develop
