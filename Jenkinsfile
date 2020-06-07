@@ -64,7 +64,7 @@ node {
             //wrap([$class: 'GithubProjectProperty']) {
             withCredentials([string(credentialsId: 'k8sgithubmac', variable: 'TOKEN')]) {
             wrap([$class: 'BuildUser']){
-                sh "echo '{\"title\":\"[auto-creation] SEDATED - '$BUILD_USER_FIRST_NAME' whitelisted Commit ID(s)\",\"body\":\" @'$BUILD_USER_ID' Hi '$BUILD_USER_FIRST_NAME', Thank you for using self service utility to whitelist commit id(s). Following commit id(s) are whitelisted '$validCommits2'\",\"assignee\":[\"sagarvsh\"],\"labels\":[\"auto-creation\"]}' > issue.json"
+                sh "echo '{\"title\":\"[auto-creation] SEDATED - '$BUILD_USER_FIRST_NAME' whitelisted Commit ID(s)\",\"body\":\" @'$BUILD_USER_ID' Hi '$BUILD_USER_FIRST_NAME', Thank you for using self service utility to whitelist commit id(s). Following commit id(s) are whitelisted '$validCommits2'\",\"assignees\":[\"sagarvsh\"],\"labels\":[\"auto-creation\"]}' > issue.json"
 
                 sh '''
                 response=$(curl -X POST -H "Authorization: token $TOKEN" https://api.github.com/repos/sagarvsh/sedated/issues --data @issue.json)
