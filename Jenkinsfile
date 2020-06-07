@@ -64,12 +64,13 @@ node {
             //wrap([$class: 'GithubProjectProperty']) {
             wrap([$class: 'BuildUser']){
                 sh "echo '{\"title\":\"[auto-creation] SEDATED - '$BUILD_USER_FIRST_NAME' whitelisted Commit ID(s)\",\"body\":\" @'$BUILD_USER_ID' Hi '$BUILD_USER_FIRST_NAME', Thank you for using self service utility to whitelist commit id(s). Following commit id(s) are whitelisted '$validCommits2'\",\"assignee\":[\"sagarvsh\"],\"labels\":[\"auto-creation\"]}' > issue.json"
-
-                sh '''
-                response=$(curl -X POST -H "Authorization: token 05365c858e4c038c110a64763673efaa58d585b3" https://api.github.com/repos/sagarvsh/sedated/issues --data @issue.json)
+                sh "cat issue.json"
+                /* sh '''
+                response=$(curl -X POST -H "Authorization: token $" https://api.github.com/repos/sagarvsh/sedated/issues --data @issue.json)
                 issuenumber=$(echo $response | jq '.number')
                 curl -X PATCH -H "Authorization: token 05365c858e4c038c110a64763673efaa58d585b3" https://api.github.com/repos/sagarvsh/sedated/issues/$issuenumber --data '{"stage":"closed"}'
                 '''
+                */
             }
             //}
         } 
