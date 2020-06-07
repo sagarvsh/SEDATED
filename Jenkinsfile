@@ -56,8 +56,6 @@ node {
                 cat audit_commit_whitelist.md
                 git commit -am "commit $validCommits2"
                 git push origin develop
-                git config -global user.email "vs.sagar@gmail.com"
-                git config -global user.name "SagarVS"
                 """
             }
             }
