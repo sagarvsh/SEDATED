@@ -46,8 +46,6 @@ node {
             wrap([$class: 'BuildUser']){
                 sh """#!/bin/sh
                 git clone git@github.com:sagarvsh/sedated.git
-                git config user.email "vs.sagar@gmail.com"
-                git config user.name "SagarVS"
                 cd sedated/config/whitelists
                 git checkout -b develop
                 git pull origin develop
@@ -55,6 +53,8 @@ node {
                 echo "| $BUILD_ID | $TIMESTAMP | $validCommits2 | $Reason | $BUILD_USER |" >> audit_commit_whitelist.md
                 cat audit_commit_whitelist.md
                 git commit -am "commit $validCommits2"
+                git config --global user.email "vs.sagar@gmail.com"
+                git config --global user.name "SagarVS"
                 git push origin develop
                 """
             }
