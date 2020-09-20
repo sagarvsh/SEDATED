@@ -28,3 +28,4 @@
 | 15 | Mon Jun 08 12:52:11 UTC 2020 | 1234567890example1234567890commit1234561 | Fixed | SagarVS |
 | 6 | Sun Sep 20 16:06:15 GMT 2020 | 1234567890example1234567890commit1234567 | False Positive | Sagar V S |
 | 7 | Sun Sep 20 16:12:50 GMT 2020 | 1234567890example1234567890commit1234567 | False Positive | Sagar V S |
+| 8 | Sun Sep 20 16:18:34 GMT 2020 | 1234567890example1234567890commit1234567 | False Positive | Sagar V S |
